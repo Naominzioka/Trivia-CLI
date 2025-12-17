@@ -1,22 +1,22 @@
-import chalk from "chalk";
-import { select } from "@inquirer/prompts";
+import chalk from 'chalk';
+import { select } from '@inquirer/prompts';
 
 
 export async function showMainMenu(triviaQuestions) {
     const action = await select({
-        message: "Main Menu",
+        message: 'Main Menu',
         choices: [
-            { name: "Start Game", value: "start" },
-            { name: "Quit", value: "quit" },
+            { name: 'Start Game', value: 'start' },
+            { name: 'Quit', value: 'quit' },
         ],
     });
     switch (action) {
-        case "start":
-            await startGame(triviaQuestions);
-            break;
-        case "quit":
-            console.log("Goodbye!");
-            process.exit(0);
+    case 'start':
+        await startGame(triviaQuestions);
+        break;
+    case 'quit':
+        console.log('Goodbye!');
+        process.exit(0);
     }
 }
 
@@ -32,10 +32,10 @@ export async function startGame(triviaQuestions) {
     while (currentPosition < triviaQuestions.length) {
 
         // Get the question at the current position
-        const currentQuestion = triviaQuestions[currentPosition]
+        const currentQuestion = triviaQuestions[currentPosition];
 
         // Get the options for the question, as an array of key-value pairs
-        const options = Object.entries(currentQuestion.options)
+        const options = Object.entries(currentQuestion.options);
         /* 
             The select function expects a message (the question to show the user) and choices (the options the user will pick from)
             The message is the question text
@@ -49,22 +49,22 @@ export async function startGame(triviaQuestions) {
         });
 
         // We save the answer that the user has selected
-        currentQuestion.selectedAnswer = userAnswer
+        currentQuestion.selectedAnswer = userAnswer;
         // We increment currentPosition, so that we don't get an infinite loop
-        currentPosition += 1
+        currentPosition += 1;
     }
     // Initialize an object to store results. The object has three keys (correct, wrong and skipped) whose values start at zero
     const results = {
         correct: 0,
         wrong: 0,
         skipped: 0
-    }
+    };
     for (let i = 0; i < triviaQuestions.length; i++) {
         const question = triviaQuestions[i];
 
         // Extract correctAnswer and selectedAnswer from the question
         const correctAnswer = question.correctAnswer;
-        const selectedAnswer = question.selectedAnswer
+        const selectedAnswer = question.selectedAnswer;
         // Check if the selectedAnswer is the correct one, and update the results
         const IsCorrect = selectedAnswer === correctAnswer;
         if (IsCorrect) {
@@ -74,7 +74,7 @@ export async function startGame(triviaQuestions) {
             results.wrong += 1;
         }
     }
-    console.log(chalk.red('GAME OVER!'))
-    console.log(chalk.yellow(`You got ${results.correct} questions right, and ${results.wrong} questions wrong.`))
+    console.log(chalk.red('GAME OVER!'));
+    console.log(chalk.yellow(`You got ${results.correct} questions right, and ${results.wrong} questions wrong.`));
 
 }
